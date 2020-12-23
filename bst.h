@@ -2,17 +2,19 @@
 #define BST_H_
 
 typedef struct node {
-    char product_num[3];
+    char product_num[5];
     int price, amount;
     struct node *left, *right;
-    int is_leaf;
+    //int is_leaf;
 } node;
 
-node* make_tree();
-node* import_file(char filename[]);
-node* insert();
-node* del();
-node* search();
-node* inorder();
-node* freenode();
+node* make_node(char p_num[], int prz, int amt);
+node* import_file(char filename[], node* root);
+node* insert(node* root, char p_num[], int prz, int amt);
+node* del(node* root, char p_num[]);
+node* search(node* root, char p_num[]);
+void inorder_pt(node* root);
+node* inorder_succ(node* root, char p_num[]);
+node* minimum(node* root);
+void save(char name[], node* root);
 #endif
