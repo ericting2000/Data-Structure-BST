@@ -239,9 +239,19 @@ node* minimum(node* root) {
     return root;
 }
 
+void savetool(node* root, FILE* fp) {
+    if (root) {
+        savetool(root->left, fp);
+        fprintf(fp, "%s %d %d", root->product_num, root->price, root->amount);
+        fputs("\n", fp);
+        savetool(root->right, fp);
+    }
+}
+
 void save(char name[], node* root) {
     FILE* fp;
     fp = fopen(name, "w");
     assert(fp != NULL);
+    savetool(root, fp);
     fclose(fp);
 }

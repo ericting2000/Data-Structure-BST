@@ -17,4 +17,5 @@ void inorder_pt(node* root);
 node* inorder_succ(node* root, char p_num[]);
 node* minimum(node* root);
 void save(char name[], node* root);
+void savetool(node* root, FILE* fp);
 #endif
