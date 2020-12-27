@@ -46,6 +46,7 @@ int conti_show() {
         system("clear");
         return 0;
     }
+    system("clear");
     /*if (a == 'N' || b == 'N') {
         system("clear");
         return 1;
