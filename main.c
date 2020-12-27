@@ -11,13 +11,18 @@ int main() {
     printf("Please select the operation from below:\n");
     menu();
     while (scanf("%s", option) == 1) {
-        //printf("%s\n", option);
         if (strcmp("1", option) == 0) {
             char filename[50];
             system("clear");
             printf("Please insert the file name in this form : (XXX.txt)\n");
             scanf("%s", filename);
             root = import_file(filename, root);
+            if (!root) {
+                esc_to_exit();
+                printf("Please select the operation from below:\n");
+                menu();
+                continue;
+            }
             printf("File import successfully\n");
             esc_to_exit();
         }
@@ -39,7 +44,7 @@ int main() {
                     printf("     %s        |   %d    |    %d\n", srch->product_num, srch->price, srch->amount);
                     k = 1;
                 } else if (!srch && k == 0) {
-                    printf("The node you search for doesn't exist\n");
+                    printf("The product you search for doesn't exist\n");
                     esc_to_exit();
                     break;
                 } else {
@@ -50,8 +55,6 @@ int main() {
             } while (conti_show() == 1);
         }
         if (strcmp("3", option) == 0) {
-        }
-        if (strcmp("4", option) == 0) {
             node* src;
             char p_num[5];
             int prz, amt;
@@ -61,16 +64,24 @@ int main() {
             src = search(root, p_num);
             if (src) {
                 src->amount += amt;
-                printf("Importation complete\n");
+                printf("\n");
+                printf("The data of this product has been updated, below is its information:\n");
+                printf("product_number     price     amount\n");
+                printf("     %s        |   %d    |    %d\n", src->product_num, src->price, src->amount);
+
             } else {
                 printf("The product doesn't exist, please insert the price to complete importation\n");
                 scanf("%d", &prz);
+                printf("\n");
                 root = insert(root, p_num, prz, amt);
-                printf("Importation complete\n");
+                printf("Your importation has completed\n");
+                printf("Below is its product information:\n");
+                printf("product_number     price     amount\n");
+                printf("     %s        |   %d    |    %d\n", p_num, prz, amt);
             }
             esc_to_exit();
         }
-        if (strcmp("5", option) == 0) {
+        if (strcmp("4", option) == 0) {
             node* src;
             char num[5];
             system("clear");
@@ -78,15 +89,20 @@ int main() {
             scanf("%s", num);
             src = search(root, num);
             if (src) {
-                root = del(root, num);
                 system("clear");
-                printf("The product you select has already been deleted\n");
+                printf("Below is the information that you chosen to delete:\n");
+                printf("product_number     price     amount\n");
+                printf("     %s        |   %d    |    %d\n", src->product_num, src->price, src->amount);
+                root = del(root, num);
+                printf("\n");
+                printf("The product you selected has already been deleted\n");
+
             } else {
                 printf("The product you choose doesn't exist, please check again\n");
             }
             esc_to_exit();
         }
-        if (strcmp("6", option) == 0) {
+        if (strcmp("5", option) == 0) {
             node* src;
             char p_num[5];
             int amt;
@@ -97,24 +113,24 @@ int main() {
             if (src) {
                 if (src->amount >= amt) {
                     src->amount -= amt;
-                    printf("Exportation complete\n");
+                    printf("Your exportation has completed\n");
                 } else
                     printf("The amount of product isn't enough for you to export\n");
-
-                if (src->amount == 0) {
+                /*if (src->amount == 0) {
                     root = del(root, p_num);
-                }
+                }*/
             } else
                 printf("The product doesn't exist\n");
             esc_to_exit();
         }
-        if (strcmp("7", option) == 0) {
+        if (strcmp("6", option) == 0) {
             system("clear");
             printf("product_number     price     amount\n");
             inorder_pt(root);
             esc_to_exit();
         }
-        if (strcmp("8", option) == 0) {
+        if (strcmp("7", option) == 0) {
+            system("clear");
             node* newnode;
             char o_num[5], n_num[5];
             printf("Please insert the product number you want to modify and its new number : (old, new)\n");
@@ -130,16 +146,27 @@ int main() {
             printf("     %s        |   %d    |    %d\n", newnode->product_num, newnode->price, newnode->amount);
             esc_to_exit();
         }
-        if (strcmp("9", option) == 0) {
+        if (strcmp("8", option) == 0) {
             char flname[50];
+            char t[3];
             system("clear");
-            printf("Please insert the file name in this form : (XXX.txt)\n");
-            scanf("%s", flname);
-            save(flname, root);
-            printf("Your file has been saved successfully,see you soon!\n");
-            exit(0);
+            printf("Do you want to save the file before you quit?[y/n]\n");
+            while (scanf("%s", t) == 1) {
+                system("clear");
+                if (strcmp(t, "y") == 0) {
+                    printf("Please insert the file name in this form : (XXX.txt)\n");
+                    scanf("%s", flname);
+                    save(flname, root);
+                    printf("Your file has been saved successfully,see you soon!\n");
+                    freetree(root);
+                    exit(0);
+                } else if (strcmp(t, "n") == 0) {
+                    printf("See you soon!\n");
+                    exit(0);
+                } else
+                    printf("No such command, please insert again![y/n]\n");
+            }
         }
-        //esc_to_exit();
         printf("Please select the operation from below:\n");
         menu();
     }

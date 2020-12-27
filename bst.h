@@ -5,7 +5,6 @@ typedef struct node {
     char product_num[5];
     int price, amount;
     struct node *left, *right;
-    //int is_leaf;
 } node;
 
 node* make_node(char p_num[], int prz, int amt);
@@ -18,4 +17,5 @@ node* inorder_succ(node* root, char p_num[]);
 node* minimum(node* root);
 void save(char name[], node* root);
 void savetool(node* root, FILE* fp);
+void freetree(node* root);
 #endif
