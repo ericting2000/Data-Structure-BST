@@ -131,20 +131,27 @@ int main() {
         }
         if (strcmp("7", option) == 0) {
             system("clear");
-            node* newnode;
+            node* oldnode;
+            int prz, amt;
             char o_num[5], n_num[5];
             printf("Please insert the product number you want to modify and its new number : (old, new)\n");
             scanf("%s%s", o_num, n_num);
-            newnode = search(root, o_num);
-            strcpy(newnode->product_num, n_num);
-            root = del(root, o_num);
-            root = insert(root, newnode->product_num, newnode->price, newnode->amount);
-            system("clear");
-            printf("The data of product %s has been midified\n", o_num);
-            printf("Below is the new data:\n");
-            printf("product_number     price     amount\n");
-            printf("     %s        |   %d    |    %d\n", newnode->product_num, newnode->price, newnode->amount);
-            esc_to_exit();
+            oldnode = search(root, o_num);
+            if (!oldnode) {
+                printf("The product you want to modify the number is not exist in database.\n");
+                esc_to_exit();
+            } else {
+                prz = oldnode->price;
+                amt = oldnode->amount;
+                root = del(root, o_num);
+                root = insert(root, n_num, prz, amt);
+                system("clear");
+                printf("The data of product %s has been midified\n", o_num);
+                printf("Below is the new data:\n");
+                printf("product_number     price     amount\n");
+                printf("     %s        |   %d    |    %d\n", n_num, prz, amt);
+                esc_to_exit();
+            }
         }
         if (strcmp("8", option) == 0) {
             char flname[50];
